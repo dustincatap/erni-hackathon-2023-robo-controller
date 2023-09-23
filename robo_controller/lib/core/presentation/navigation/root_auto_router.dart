@@ -18,8 +18,7 @@ class RootAutoRouterImpl extends $RootAutoRouterImpl implements RootAutoRouter {
   @override
   List<AutoRoute> get routes {
     return <AutoRoute>[
-      AutoRoute(page: PostsViewRoute.page, path: '/'),
-      AutoRoute(page: PostDetailsViewRoute.page, path: '/posts/:post'),
+      AutoRoute(page: ControlPadViewRoute.page, path: '/'),
     ];
   }
 
