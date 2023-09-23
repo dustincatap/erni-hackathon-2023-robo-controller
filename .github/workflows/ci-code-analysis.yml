@@ -1,0 +1,64 @@
+name: Code Analysis
+
+on:
+  push:
+    paths:
+      - .github/**/*.yml
+      - scripts/**
+      - robo_controller/**
+    branches:
+      - main
+
+  pull_request:
+    paths:
+      - .github/**/*.yml
+      - scripts/**
+      - robo_controller/**
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  PROJECT_WORKING_DIRECTORY: "robo_controller"
+
+permissions: {}
+
+jobs:
+  run-code-analysis:
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4.0.0
+
+      - name: Install Flutter
+        uses: ./.github/workflows/steps/install-flutter
+        with:
+          working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
+      - name: Check formatting
+        run: dart format --line-length=120 --set-exit-if-changed .
+        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
+      - name: Check for duplicate lines of code
+        run: |
+          npm install -g jscpd
+          npx jscpd lib --reporters consoleFull --threshold 5
+        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
+      - name: Run code generation
+        uses: ./.github/workflows/steps/run-pub-get-and-code-generation
+        with:
+          generate_intl: "true"
+          working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
+      - name: Run Dart code analysis
+        run: |
+          dart analyze .
+        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}

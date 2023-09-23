@@ -1,0 +1,83 @@
+name: Tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_environment:
+        required: false
+        type: choice
+        description: Select environment
+        default: dev
+        options:
+          - dev
+
+  push:
+    paths:
+      - .github/**/*.yml
+      - scripts/**
+      - robo_controller/**
+    branches:
+      - main
+
+  pull_request:
+    paths:
+      - .github/**/*.yml
+      - scripts/**
+      - robo_controller/**
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  PROJECT_WORKING_DIRECTORY: "robo_controller"
+
+permissions: {}
+
+jobs:
+  run-tests:
+    runs-on: macos-latest
+    permissions: {}
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4.0.0
+
+      - name: Set app environment
+        uses: ./.github/workflows/steps/set-app-environment
+        with:
+          target_environment: ${{ github.event.inputs.target_environment }}
+
+      - name: Install Flutter
+        uses: ./.github/workflows/steps/install-flutter
+        with:
+          working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
+      - name: Run code generation
+        uses: ./.github/workflows/steps/run-pub-get-and-code-generation
+        with:
+          generate_intl: "true"
+          working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
+      - name: Add ignore-coverage to generated files
+        run: |
+          bash ../scripts/ignore_coverage.sh
+        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
+      - name: Run tests
+        run: |
+          dart run full_coverage
+          flutter test --coverage --dart-define-from-file .secrets/${{ env.APP_ENVIRONMENT }}.json
+        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
+      # Disable Codecov for now
+      # - uses: codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d # v3.1.4
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+      #     files: ${{ env.PROJECT_WORKING_DIRECTORY }}/coverage/lcov.info
+      #     fail_ci_if_error: true
+      #     verbose: true
