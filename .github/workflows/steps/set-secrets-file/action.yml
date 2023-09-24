@@ -18,7 +18,8 @@ runs:
     - run: |
         rm -d -R .secrets
         mkdir .secrets
-        echo -n "${{ inputs.secrets_file_value }}" | base64 --decode > .secrets/${{ inputs.app_environment }}.json
+        app_environment=$(echo "${{ inputs.app_environment }}" | tr '[:upper:]' '[:lower:]')
+        echo -n "${{ inputs.secrets_file_value }}" | base64 --decode > .secrets/${{ app_environment }}.json
         ls -la .secrets
       shell: bash
       working-directory: ${{ inputs.working_directory }}
