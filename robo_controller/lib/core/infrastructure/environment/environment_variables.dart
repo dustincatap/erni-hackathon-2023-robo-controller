@@ -4,6 +4,8 @@ abstract interface class EnvironmentVariables {
   String get appEnvironment;
 
   String get appServerUrl;
+
+  String get mobileWebSocketUrl;
 }
 
 @LazySingleton(as: EnvironmentVariables)
@@ -15,4 +17,7 @@ class EnvironmentVariablesImpl implements EnvironmentVariables {
 
   @override
   String get appServerUrl => const String.fromEnvironment('appServerUrl');
+
+  @override
+  String get mobileWebSocketUrl => const String.fromEnvironment('mobileWebSocketUrl');
 }

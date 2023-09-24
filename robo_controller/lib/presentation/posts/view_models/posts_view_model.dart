@@ -27,7 +27,7 @@ class PostsViewModel extends ViewModel implements Initializable {
   ValueListenable<PostsListState> get postsState => _postsState;
 
   @override
-  Future<void> onInitialize() async {
+  Future<void> initialize() async {
     await _onGetPosts();
   }
 

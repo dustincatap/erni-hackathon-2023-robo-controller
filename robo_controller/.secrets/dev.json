@@ -1,7 +1,12 @@
 {
     "appEnvironment": "dev",
     "appServerUrl": "https://jsonplaceholder.typicode.com/",
-    "appId": "com.mycompany.robo.controller",
+    "appId": "ch.erni.robo.controller",
     "appIdSuffix": ".dev",
-    "appName": "Robo Controller (Dev)"
+    "appName": "Robo Controller (Dev)",
+    "iOSDevelopmentTeam": "2A26KBG984",
+    "iOSDevelopmentProfile": "Erni Generic Development Profile",
+    "iOSDistributionProfile": "Erni Mobile Generic Distribution",
+    "iOSExportMethod": "enterprise",
+    "mobileWebSocketUrl": "wss://sx5ivtfpjl.execute-api.ap-southeast-1.amazonaws.com/production"
 }

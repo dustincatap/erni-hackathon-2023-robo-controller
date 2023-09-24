@@ -1,7 +1,8 @@
 {
     "appEnvironment": "prod",
     "appServerUrl": "https://jsonplaceholder.typicode.com/",
-    "appId": "com.mycompany.robo.controller",
+    "appId": "ch.erni.robo.controller",
     "appIdSuffix": "",
-    "appName": "Robo Controller"
+    "appName": "Robo Controller",
+    "mobileWebSocketUrl": "wss://sx5ivtfpjl.execute-api.ap-southeast-1.amazonaws.com/production"
 }
