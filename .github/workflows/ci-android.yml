@@ -36,9 +36,20 @@ env:
 permissions: {}
 
 jobs:
-  build-apk:
+  set-environment:
     runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.target_environment || 'DEV' }}
+    outputs:
+      APP_ENVIRONMENT: ${{ steps.set_environment.outputs.APP_ENVIRONMENT }}
+    permissions: {}
+    steps:
+      - name: Set environment
+        id: set_environment
+        run: |
+          echo "APP_ENVIRONMENT=${{ github.event.inputs.target_environment || 'DEV' }}" >> $GITHUB_ENV
+  build-apk:
+    needs: set-environment
+    runs-on: ubuntu-latest
+    environment: ${{ needs.set-environment.outputs.APP_ENVIRONMENT }}
     permissions: {}
     steps:
       - name: Harden Runner
@@ -58,7 +69,7 @@ jobs:
       - name: Set secrets file
         uses: ./.github/workflows/steps/set-secrets-file
         with:
-          secrets_file_value: ${{ env.SECRETS_FILE }}
+          secrets_file_value: ${{ secrets.SECRETS_FILE }}
           app_environment: ${{ vars.APP_ENVIRONMENT }}
           working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
