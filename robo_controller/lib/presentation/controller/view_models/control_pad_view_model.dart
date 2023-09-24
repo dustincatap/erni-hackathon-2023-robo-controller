@@ -3,11 +3,13 @@ import 'package:robo_controller/core/presentation/view_models/view_model.dart';
 
 @injectable
 class ControlPadViewModel extends ViewModel {
-  void onHorizontalChanged(double x) {
+  double onHorizontalChanged(double x) {
     print('x: $x');
+    return x;
   }
 
-  void onVerticalChanged(double y) {
+  double onVerticalChanged(double y) {
     print('y: $y');
+    return y;
   }
 }

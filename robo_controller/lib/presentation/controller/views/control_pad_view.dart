@@ -2,82 +2,52 @@
 
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_joystick/flutter_joystick.dart';
 import 'package:robo_controller/core/presentation/navigation/root_auto_router.gr.dart';
 import 'package:robo_controller/core/presentation/views/view_route_mixin.dart';
 import 'package:robo_controller/presentation/controller/view_models/control_pad_view_model.dart';
+import 'package:robo_controller/presentation/controller/widgets/gauge_widget.dart';
+import 'package:robo_controller/presentation/controller/widgets/joystick_widget.dart';
+import 'package:robo_controller/presentation/controller/widgets/top_view_car_widget.dart';
 
 @RoutePage()
-class ControlPadView extends StatelessWidget with ViewRouteMixin<ControlPadViewModel> {
-  const ControlPadView() : super(key: const Key(ControlPadViewRoute.name));
+class ControlPadView extends StatefulWidget {
+  const ControlPadView({super.key = const Key(ControlPadViewRoute.name)});
+
+  @override
+  State<ControlPadView> createState() => _ControlPadViewState();
+}
+
+class _ControlPadViewState extends State<ControlPadView> with ViewRouteMixin<ControlPadViewModel> {
+  double speed = 0.0;
+  double angle = 0.0;
 
   @override
   Widget buildView(BuildContext context, ControlPadViewModel viewModel) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Control Pad'),
-      ),
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      backgroundColor: Colors.grey,
+      body: Stack(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: Joystick(
-                mode: JoystickMode.vertical,
-                base: Container(
-                  width: 180,
-                  height: 180,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.blue,
-                  ),
-                ),
-                stick: Container(
-                  width: 50,
-                  height: 50,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.red,
-                  ),
-                ),
-                listener: (StickDragDetails details) {
-                  viewModel.onHorizontalChanged(details.y);
-                },
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: Joystick(
-                mode: JoystickMode.horizontal,
-                base: Container(
-                  width: 180,
-                  height: 180,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.blue,
-                  ),
-                ),
-                stick: Container(
-                  width: 50,
-                  height: 50,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.red,
-                  ),
-                ),
-                listener: (StickDragDetails details) {
-                  viewModel.onVerticalChanged(details.x);
-                },
-              ),
-            ),
+          GaugeWidget(value: speed),
+          TopViewCarWidget(value: angle),
+          JoystickWidget(
+            viewModel: viewModel,
+            onHorizontalChanged: _handleOnHorizontalChanged,
+            onVerticalChanged: _handleOnVerticalChanged,
           ),
         ],
       ),
     );
+  }
+
+  void _handleOnHorizontalChanged(double value) {
+    setState(() {
+      speed = value * 200;
+    });
+  }
+
+  void _handleOnVerticalChanged(double value) {
+    setState(() {
+      angle = (value / 100) * 45;
+    });
   }
 }
