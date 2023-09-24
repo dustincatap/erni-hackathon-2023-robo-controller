@@ -32,6 +32,7 @@ dependencies:
   pod_player: ^0.2.1
   reflectable: ^4.0.5
   retrofit: ^4.0.1
+  syncfusion_flutter_gauges: ^23.1.36
   uuid: ^4.0.0
   web_socket_channel: ^2.4.0
 
@@ -54,9 +55,13 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/vertical-arrow.png
+    - assets/horizontal-arrow.png
+    - assets/top-view-car.png
 
 flutter_gen:
-  output: lib/shared/resources
+  output: lib/common/resources
   line_length: 120
   fonts:
     enabled: false
@@ -66,3 +71,5 @@ flutter_intl:
   class_name: Il8n
   arb_dir: lib/common/localization
   output_dir: lib/common/localization/generated
+
+

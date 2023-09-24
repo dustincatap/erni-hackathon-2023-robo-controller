@@ -11,9 +11,16 @@ class ControlPadViewModel extends ViewModel implements Initializable {
   final SendCommandUseCase _sendCommandUseCase;
   final Logger _logger;
 
+  final ValueNotifier<int> _speed = ValueNotifier<int>(0);
+  final ValueNotifier<int> _direction = ValueNotifier<int>(0);
+
   ControlPadViewModel(this._sendCommandUseCase, this._logger) {
     _logger.logFor<ControlPadViewModel>();
   }
+
+  ValueListenable<int> get speed => _speed;
+
+  ValueListenable<int> get direction => _direction;
 
   @override
   Future<void> initialize() async {
@@ -36,11 +43,13 @@ class ControlPadViewModel extends ViewModel implements Initializable {
   }
 
   void onSpeedChanged(int value) {
+    _speed.value = value;
     final Command command = SetSpeedCommand(value);
     _sendCommand(command);
   }
 
   void onDirectionChanged(int value) {
+    _direction.value = value;
     final Command command = SetDirectionCommand(value);
     _sendCommand(command);
   }
