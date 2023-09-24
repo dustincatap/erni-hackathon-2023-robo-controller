@@ -8,6 +8,7 @@ app_environment = ""
 before_all do
   # `APP_ENVIRONMENT` must be set in your CI server, or export it before running fastlane
   app_environment = ENV["APP_ENVIRONMENT"]
+  app_environment = app_environment.downcase
   dart_define_file = ".secrets/#{app_environment}.json"
 
   if app_environment.nil? || app_environment.empty?
