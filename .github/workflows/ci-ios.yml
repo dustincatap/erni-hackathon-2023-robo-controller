@@ -83,9 +83,8 @@ jobs:
           bundle exec fastlane build_ios_release
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
-      # Enable this if you want to publish the IPA file as an artifact
-      # - name: Publish iOS App
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: ios_build
-      #     path: ${{ env.PROJECT_WORKING_DIRECTORY }}/build/ios/ipa/**
+      - name: Publish iOS App
+        uses: actions/upload-artifact@v3
+        with:
+          name: ios_build
+          path: ${{ env.PROJECT_WORKING_DIRECTORY }}/build/ios/ipa/**

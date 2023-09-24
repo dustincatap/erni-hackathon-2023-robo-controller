@@ -20,7 +20,7 @@ class JoystickWidget extends StatelessWidget with ChildViewMixin<ControlPadViewM
               mode: JoystickMode.vertical,
               base: FittedBox(
                 fit: BoxFit.contain,
-                child: Assets.verticalArrow.image(
+                child: Assets.graphics.verticalArrow.image(
                   width: 150,
                   height: 150,
                 ),
@@ -48,7 +48,7 @@ class JoystickWidget extends StatelessWidget with ChildViewMixin<ControlPadViewM
               mode: JoystickMode.horizontal,
               base: FittedBox(
                 fit: BoxFit.contain,
-                child: Assets.horizontalArrow.image(
+                child: Assets.graphics.horizontalArrow.image(
                   width: 150,
                   height: 150,
                 ),

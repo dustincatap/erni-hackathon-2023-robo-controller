@@ -56,9 +56,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/vertical-arrow.png
-    - assets/horizontal-arrow.png
-    - assets/top-view-car.png
+    - assets/graphics/
 
 flutter_gen:
   output: lib/common/resources

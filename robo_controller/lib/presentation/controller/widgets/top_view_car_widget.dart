@@ -20,7 +20,7 @@ class TopViewCarWidget extends StatelessWidget with ChildViewMixin<ControlPadVie
               angle: direction * 0.0174533,
               child: FittedBox(
                 fit: BoxFit.contain,
-                child: Assets.topViewCar.image(
+                child: Assets.graphics.topViewCar.image(
                   width: 100,
                   height: 100,
                 ),
