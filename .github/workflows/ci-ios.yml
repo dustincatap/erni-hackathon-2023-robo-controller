@@ -36,20 +36,11 @@ env:
 permissions: {}
 
 jobs:
-  set-environment:
-    runs-on: ubuntu-latest
-    outputs:
-      APP_ENVIRONMENT: ${{ steps.set_environment.outputs.APP_ENVIRONMENT }}
-    permissions: {}
-    steps:
-      - name: Set environment
-        id: set_environment
-        run: |
-          echo "APP_ENVIRONMENT=${{ github.event.inputs.target_environment || 'DEV' }}" >> $GITHUB_OUTPUT
   build-ios:
-    needs: set-environment
     runs-on: macos-latest
-    environment: ${{ needs.set-environment.outputs.APP_ENVIRONMENT }}
+    environment: ${{ github.event.inputs.target_environment || 'DEV' }}
+    env:
+      APP_ENVIRONMENT: ${{ github.event.inputs.target_environment || 'DEV' }}
     permissions: {}
     steps:
       - name: Harden Runner
