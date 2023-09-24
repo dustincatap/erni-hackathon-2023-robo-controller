@@ -38,6 +38,7 @@ permissions: {}
 jobs:
   build-ios:
     runs-on: macos-latest
+    environment: ${{ github.event.inputs.target_environment || 'dev' }}
     permissions: {}
     steps:
       - name: Harden Runner
@@ -54,18 +55,12 @@ jobs:
       - run: bundle install
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
-      - name: Set app environment
-        uses: ./.github/workflows/steps/set-app-environment
+      - name: Set secrets file
+        uses: ./.github/workflows/steps/set-secrets-file
         with:
-          target_environment: ${{ github.event.inputs.target_environment }} 
-
-      # Uncomment this step if you already added your secrets file in your repository's secrets
-      # - name: Set secrets file
-      #   uses: ./.github/workflows/steps/set-secrets-file
-      #   with:
-      #     secrets_file_value: ${{ secrets[env.SECRETS_FILE_KEY] }}
-      #     app_environment: ${{ env.APP_ENVIRONMENT }}
-      #     working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+          secrets_file_value: ${{ env.SECRETS_FILE }}
+          app_environment: ${{ env.APP_ENVIRONMENT }}
+          working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Install iOS distribution certificate
         uses: apple-actions/import-codesign-certs@v1 # v1
@@ -76,7 +71,7 @@ jobs:
       - name: Install iOS provisioning profile
         uses: akiojin/install-provisioning-profile-github-action@v1.0 # v1.0
         with:
-          base64: ${{ secrets[env.IOS_PROVISIONING_PROFILE_FILE_KEY] }} # This is set in .github/workflows/steps/set-app-environment
+          base64: ${{ env.IOS_PROVISIONING_PROFILE_FILE }}
 
       - name: Install Flutter
         uses: ./.github/workflows/steps/install-flutter
