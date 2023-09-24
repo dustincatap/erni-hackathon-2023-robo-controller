@@ -82,7 +82,7 @@ jobs:
       - name: Install iOS provisioning profile
         uses: akiojin/install-provisioning-profile-github-action@v1.0 # v1.0
         with:
-          base64: ${{ env.IOS_PROVISIONING_PROFILE_FILE }}
+          base64: ${{ secrets.IOS_PROVISIONING_PROFILE_FILE }}
 
       - name: Install Flutter
         uses: ./.github/workflows/steps/install-flutter
