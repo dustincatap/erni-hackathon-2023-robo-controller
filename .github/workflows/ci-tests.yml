@@ -51,8 +51,8 @@ jobs:
       - name: Set secrets file
         uses: ./.github/workflows/steps/set-secrets-file
         with:
-          secrets_file_value: ${{ env.SECRETS_FILE }}
-          app_environment: ${{ env.APP_ENVIRONMENT }}
+          secrets_file_value: ${{ vars.SECRETS_FILE }}
+          app_environment: ${{ vars.APP_ENVIRONMENT }}
           working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Install Flutter
@@ -74,7 +74,7 @@ jobs:
       - name: Run tests
         run: |
           dart run full_coverage
-          flutter test --coverage --dart-define-from-file .secrets/${{ env.APP_ENVIRONMENT }}.json
+          flutter test --coverage --dart-define-from-file .secrets/${{ vars.APP_ENVIRONMENT }}.json
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - uses: codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d # v3.1.4
