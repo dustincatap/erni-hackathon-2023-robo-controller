@@ -7,9 +7,9 @@ on:
         required: false
         type: choice
         description: Select environment
-        default: dev
+        default: DEV
         options:
-          - dev
+          - DEV
 
   push:
     paths:
