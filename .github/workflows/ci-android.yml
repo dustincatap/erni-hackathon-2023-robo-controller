@@ -45,7 +45,7 @@ jobs:
       - name: Set environment
         id: set_environment
         run: |
-          echo "APP_ENVIRONMENT=${{ github.event.inputs.target_environment || 'DEV' }}" >> $GITHUB_ENV
+          echo "APP_ENVIRONMENT=${{ github.event.inputs.target_environment || 'DEV' }}" >> $GITHUB_OUTPUT
   build-apk:
     needs: set-environment
     runs-on: ubuntu-latest
