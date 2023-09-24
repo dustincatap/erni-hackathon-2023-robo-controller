@@ -59,7 +59,7 @@ jobs:
         uses: ./.github/workflows/steps/set-secrets-file
         with:
           secrets_file_value: ${{ env.SECRETS_FILE }}
-          app_environment: ${{ env.APP_ENVIRONMENT }}
+          app_environment: ${{ vars.APP_ENVIRONMENT }}
           working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Install iOS distribution certificate
