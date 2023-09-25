@@ -30,8 +30,7 @@ class ControlPadViewModel extends ViewModel implements Initializable {
     final Result<void> result = _sendCommandUseCase.connect();
 
     if (result is Failure<void>) {
-      _logger.log(LogLevel.error, 'Failed to connect', result.exception,
-          result.stackTrace);
+      _logger.log(LogLevel.error, 'Failed to connect', result.exception, result.stackTrace);
     }
   }
 
@@ -40,8 +39,7 @@ class ControlPadViewModel extends ViewModel implements Initializable {
     final Result<void> result = await _sendCommandUseCase.disconnect();
 
     if (result is Failure<void>) {
-      _logger.log(LogLevel.error, 'Failed to disconnect', result.exception,
-          result.stackTrace);
+      _logger.log(LogLevel.error, 'Failed to disconnect', result.exception, result.stackTrace);
     }
 
     super.dispose();
@@ -69,8 +67,7 @@ class ControlPadViewModel extends ViewModel implements Initializable {
     final Result<void> result = _sendCommandUseCase.send(command);
 
     if (result is Failure<void>) {
-      _logger.log(LogLevel.error, 'Failed to send command: $command',
-          result.exception, result.stackTrace);
+      _logger.log(LogLevel.error, 'Failed to send command: $command', result.exception, result.stackTrace);
 
       return;
     }

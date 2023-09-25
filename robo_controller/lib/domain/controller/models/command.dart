@@ -8,10 +8,8 @@ abstract interface class Command {
   Object get value;
 }
 
-abstract class SerializableCommand extends JsonSerializableObject
-    implements Command {
-  const SerializableCommand(
-      {required this.operation, required this.valueKey, required this.value});
+abstract class SerializableCommand extends JsonSerializableObject implements Command {
+  const SerializableCommand({required this.operation, required this.valueKey, required this.value});
 
   @override
   final String operation;
@@ -34,8 +32,7 @@ abstract class SerializableCommand extends JsonSerializableObject
 }
 
 class SetDirectionCommand extends SerializableCommand {
-  const SetDirectionCommand(int angle)
-      : super(operation: 'set_direction', valueKey: 'angle', value: angle);
+  const SetDirectionCommand(int angle) : super(operation: 'set_direction', valueKey: 'angle', value: angle);
 }
 
 class SetAutoPilotCommand extends SerializableCommand {
@@ -44,21 +41,17 @@ class SetAutoPilotCommand extends SerializableCommand {
 }
 
 class SetSpeedCommand extends SerializableCommand {
-  const SetSpeedCommand(int speed)
-      : super(operation: 'set_speed', valueKey: 'speed', value: speed);
+  const SetSpeedCommand(int speed) : super(operation: 'set_speed', valueKey: 'speed', value: speed);
 }
 
 class SetHeadRotateCommand extends SerializableCommand {
-  const SetHeadRotateCommand(int angle)
-      : super(operation: 'set_head_rotate', valueKey: 'angle', value: angle);
+  const SetHeadRotateCommand(int angle) : super(operation: 'set_head_rotate', valueKey: 'angle', value: angle);
 }
 
 class SetHeadTiltCommand extends SerializableCommand {
-  const SetHeadTiltCommand(int angle)
-      : super(operation: 'set_head_tilt', valueKey: 'angle', value: angle);
+  const SetHeadTiltCommand(int angle) : super(operation: 'set_head_tilt', valueKey: 'angle', value: angle);
 }
 
 class SayCommand extends SerializableCommand {
-  const SayCommand(String text)
-      : super(operation: 'say', valueKey: 'text', value: text);
+  const SayCommand(String text) : super(operation: 'say', valueKey: 'text', value: text);
 }
