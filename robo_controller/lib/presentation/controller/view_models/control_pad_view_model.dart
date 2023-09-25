@@ -13,6 +13,7 @@ class ControlPadViewModel extends ViewModel implements Initializable {
 
   final ValueNotifier<int> _speed = ValueNotifier<int>(0);
   final ValueNotifier<int> _direction = ValueNotifier<int>(0);
+  final ValueNotifier<bool> _isAutoPilot = ValueNotifier<bool>(false);
 
   ControlPadViewModel(this._sendCommandUseCase, this._logger) {
     _logger.logFor<ControlPadViewModel>();
@@ -21,6 +22,8 @@ class ControlPadViewModel extends ViewModel implements Initializable {
   ValueListenable<int> get speed => _speed;
 
   ValueListenable<int> get direction => _direction;
+
+  ValueListenable<bool> get isAutoPilot => _isAutoPilot;
 
   @override
   Future<void> initialize() async {
@@ -52,6 +55,13 @@ class ControlPadViewModel extends ViewModel implements Initializable {
     _direction.value = value;
     final Command command = SetDirectionCommand(value);
     _sendCommand(command);
+  }
+
+  void onAutoPilotChanged({bool value = false}) {
+    _isAutoPilot.value = value;
+    print('onAutoPilotChanged: $value');
+    // final Command command = SetAutoPilotCommand(isAutoPilot: value);
+    // _sendCommand(command);
   }
 
   void _sendCommand(Command command) {

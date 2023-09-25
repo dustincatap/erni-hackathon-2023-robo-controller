@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:robo_controller/core/presentation/navigation/root_auto_router.gr.dart';
 import 'package:robo_controller/core/presentation/views/view_route_mixin.dart';
 import 'package:robo_controller/presentation/controller/view_models/control_pad_view_model.dart';
+import 'package:robo_controller/presentation/controller/widgets/auto_pilot_widget.dart';
 import 'package:robo_controller/presentation/controller/widgets/gauge_widget.dart';
 import 'package:robo_controller/presentation/controller/widgets/joystick_widget.dart';
 import 'package:robo_controller/presentation/controller/widgets/top_view_car_widget.dart';
@@ -16,9 +17,10 @@ class ControlPadView extends StatelessWidget with ViewRouteMixin<ControlPadViewM
   @override
   Widget buildView(BuildContext context, ControlPadViewModel viewModel) {
     return const Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.black,
       body: Stack(
         children: <Widget>[
+          AutoPilotWidget(),
           GaugeWidget(),
           TopViewCarWidget(),
           JoystickWidget(),

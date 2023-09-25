@@ -64,6 +64,7 @@ class GaugeWidget extends StatelessWidget with ChildViewMixin<ControlPadViewMode
                                 style: const TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
+                                  color: Colors.white,
                                 ),
                               ),
                             ],
@@ -98,17 +99,17 @@ class GaugeWidget extends StatelessWidget with ChildViewMixin<ControlPadViewMode
       args.text = '';
     } else if (args.text == '20') {
       args.text = 'E';
-      args.labelStyle = const GaugeTextStyle(fontSize: 10);
+      args.labelStyle = const GaugeTextStyle(fontSize: 10, color: Colors.white);
     } else if (args.text == '30') {
       args.text = '';
     } else if (args.text == '40') {
       args.text = 'S';
-      args.labelStyle = const GaugeTextStyle(fontSize: 10);
+      args.labelStyle = const GaugeTextStyle(fontSize: 10, color: Colors.white);
     } else if (args.text == '50') {
       args.text = '';
     } else if (args.text == '60') {
       args.text = 'W';
-      args.labelStyle = const GaugeTextStyle(fontSize: 10);
+      args.labelStyle = const GaugeTextStyle(fontSize: 10, color: Colors.white);
     } else if (args.text == '70') {
       args.text = '';
     }

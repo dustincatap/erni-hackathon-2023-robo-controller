@@ -35,6 +35,11 @@ class SetDirectionCommand extends SerializableCommand {
   const SetDirectionCommand(int angle) : super(operation: 'set_direction', valueKey: 'angle', value: angle);
 }
 
+class SetAutoPilotCommand extends SerializableCommand {
+  const SetAutoPilotCommand({bool isAutoPilot = false})
+      : super(operation: 'auto', valueKey: 'auto', value: isAutoPilot);
+}
+
 class SetSpeedCommand extends SerializableCommand {
   const SetSpeedCommand(int speed) : super(operation: 'set_speed', valueKey: 'speed', value: speed);
 }
