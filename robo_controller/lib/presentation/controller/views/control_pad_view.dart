@@ -29,7 +29,7 @@ class ControlPadView extends StatelessWidget
       body: Stack(
         children: <Widget>[
           WebViewWidget(controller: _wvController),
-          const AutoPilotWidget(),
+
           const GaugeWidget(),
           const TopViewCarWidget(),
           const ButtonControlsWidget(),
