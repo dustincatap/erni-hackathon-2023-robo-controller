@@ -59,6 +59,8 @@ class ControlPadViewModel extends ViewModel implements Initializable {
 
     if (result is Failure<void>) {
       _logger.log(LogLevel.error, 'Failed to send command: $command', result.exception, result.stackTrace);
+
+      return;
     }
 
     _logger.log(LogLevel.debug, 'Sent command: $command');
