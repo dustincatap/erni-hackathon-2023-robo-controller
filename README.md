@@ -20,19 +20,6 @@ Clone the repo.
 git clone https://github.com/dustincatap/erni-hackathon-2023-robo-controller.git
 ```
 
-Untrack the files under the folder `.secrets` by adding it in your [.gitignore](starterkit_app/.gitignore)
-
-```sh
-.secrets/**
-```
-
-**Setup your secrets**
-
-Update the contents of `.secrets/dev.json`, and add the other `.json` file for each of your environment.
-
-Read more about setting up your environments [here](docs/environments.md).
-
-
 **Generate code**
 
 Run the following commands to generate code. Note that this project uses [FVM](https://fvm.app) to manage its Flutter SDK versions.
