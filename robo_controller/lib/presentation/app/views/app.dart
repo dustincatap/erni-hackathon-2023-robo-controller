@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:robo_controller/common/localization/generated/l10n.dart';
 import 'package:robo_controller/core/presentation/navigation/navigation_logger.dart';
@@ -22,6 +25,14 @@ class _AppState extends State<App> with ViewMixin<AppViewModel> {
   final RootAutoRouter _rootStackRouter = ServiceLocator.instance<RootAutoRouter>();
   final NavigationLogger _navigationLogger = ServiceLocator.instance<NavigationLogger>();
   final NavigationObserver _navigationObserver = ServiceLocator.instance<NavigationObserver>();
+
+  @override
+  AppViewModel onCreateViewModel(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+    unawaited(SystemChrome.setPreferredOrientations(<DeviceOrientation>[DeviceOrientation.landscapeLeft]));
+
+    return super.onCreateViewModel(context);
+  }
 
   @override
   void dispose() {

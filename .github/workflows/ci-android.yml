@@ -7,9 +7,9 @@ on:
         required: false
         type: choice
         description: Select environment
-        default: dev
+        default: DEV
         options:
-          - dev
+          - DEV
 
   push:
     paths:
@@ -38,6 +38,9 @@ permissions: {}
 jobs:
   build-apk:
     runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.target_environment || 'DEV' }}
+    env:
+      APP_ENVIRONMENT: ${{ github.event.inputs.target_environment || 'DEV' }}
     permissions: {}
     steps:
       - name: Harden Runner
@@ -54,18 +57,12 @@ jobs:
       - run: bundle install
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
-      - name: Set app environment
-        uses: ./.github/workflows/steps/set-app-environment
+      - name: Set secrets file
+        uses: ./.github/workflows/steps/set-secrets-file
         with:
-          target_environment: ${{ github.event.inputs.target_environment }}
-
-      # Uncomment this step if you already added your secrets file in your repository's secrets
-      # - name: Set secrets file
-      #   uses: ./.github/workflows/steps/set-secrets-file
-      #   with:
-      #     secrets_file_value: ${{ secrets[env.SECRETS_FILE_KEY] }}
-      #     app_environment: ${{ env.APP_ENVIRONMENT }}
-      #     working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+          secrets_file_value: ${{ secrets.SECRETS_FILE }}
+          app_environment: ${{ vars.APP_ENVIRONMENT }}
+          working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Install Flutter
         uses: ./.github/workflows/steps/install-flutter

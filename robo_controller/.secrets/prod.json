@@ -1,7 +1,0 @@
-{
-    "appEnvironment": "prod",
-    "appServerUrl": "https://jsonplaceholder.typicode.com/",
-    "appId": "com.mycompany.robo.controller",
-    "appIdSuffix": "",
-    "appName": "Robo Controller"
-}

@@ -7,9 +7,9 @@ on:
         required: false
         type: choice
         description: Select environment
-        default: dev
+        default: DEV
         options:
-          - dev
+          - DEV
 
   push:
     paths:
@@ -38,6 +38,7 @@ permissions: {}
 jobs:
   run-tests:
     runs-on: macos-latest
+    environment: DEV
     permissions: {}
     steps:
       - name: Harden Runner
@@ -47,10 +48,12 @@ jobs:
 
       - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4.0.0
 
-      - name: Set app environment
-        uses: ./.github/workflows/steps/set-app-environment
+      - name: Set secrets file
+        uses: ./.github/workflows/steps/set-secrets-file
         with:
-          target_environment: ${{ github.event.inputs.target_environment }}
+          secrets_file_value: ${{ secrets.SECRETS_FILE }}
+          app_environment: ${{ vars.APP_ENVIRONMENT }}
+          working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Install Flutter
         uses: ./.github/workflows/steps/install-flutter
@@ -71,13 +74,12 @@ jobs:
       - name: Run tests
         run: |
           dart run full_coverage
-          flutter test --coverage --dart-define-from-file .secrets/${{ env.APP_ENVIRONMENT }}.json
+          flutter test --coverage --dart-define-from-file .secrets/${{ vars.APP_ENVIRONMENT }}.json
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
-      # Disable Codecov for now
-      # - uses: codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d # v3.1.4
-      #   with:
-      #     token: ${{ secrets.CODECOV_TOKEN }}
-      #     files: ${{ env.PROJECT_WORKING_DIRECTORY }}/coverage/lcov.info
-      #     fail_ci_if_error: true
-      #     verbose: true
+      - uses: codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d # v3.1.4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ${{ env.PROJECT_WORKING_DIRECTORY }}/coverage/lcov.info
+          fail_ci_if_error: true
+          verbose: true

@@ -87,7 +87,7 @@ abstract final class ViewLifeCycleHandler {
 
     if (viewModel is Initializable) {
       final Initializable initializable = viewModel as Initializable;
-      unawaited(initializable.onInitialize());
+      unawaited(initializable.initialize());
     }
   }
 

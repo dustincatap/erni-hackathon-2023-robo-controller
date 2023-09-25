@@ -7,9 +7,9 @@ on:
         required: false
         type: choice
         description: Select environment
-        default: dev
+        default: DEV
         options:
-          - dev
+          - DEV
 
   push:
     paths:
@@ -38,6 +38,9 @@ permissions: {}
 jobs:
   build-ios:
     runs-on: macos-latest
+    environment: ${{ github.event.inputs.target_environment || 'DEV' }}
+    env:
+      APP_ENVIRONMENT: ${{ github.event.inputs.target_environment || 'DEV' }}
     permissions: {}
     steps:
       - name: Harden Runner
@@ -54,18 +57,23 @@ jobs:
       - run: bundle install
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
-      - name: Set app environment
-        uses: ./.github/workflows/steps/set-app-environment
+      - name: Set secrets file
+        uses: ./.github/workflows/steps/set-secrets-file
         with:
-          target_environment: ${{ github.event.inputs.target_environment }}
+          secrets_file_value: ${{ secrets.SECRETS_FILE }}
+          app_environment: ${{ vars.APP_ENVIRONMENT }}
+          working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
-      # Uncomment this step if you already added your secrets file in your repository's secrets
-      # - name: Set secrets file
-      #   uses: ./.github/workflows/steps/set-secrets-file
-      #   with:
-      #     secrets_file_value: ${{ secrets[env.SECRETS_FILE_KEY] }}
-      #     app_environment: ${{ env.APP_ENVIRONMENT }}
-      #     working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+      - name: Install iOS distribution certificate
+        uses: apple-actions/import-codesign-certs@v1 # v1
+        with: 
+          p12-file-base64: ${{ secrets.IOS_DISTRIBUTION_CERTIFICATE_FILE }}
+          p12-password: ${{ secrets.IOS_DISTRIBUTION_CERTIFICATE_PASSWORD }}
+
+      - name: Install iOS provisioning profile
+        uses: akiojin/install-provisioning-profile-github-action@v1.0 # v1.0
+        with:
+          base64: ${{ secrets.IOS_PROVISIONING_PROFILE_FILE }}
 
       - name: Install Flutter
         uses: ./.github/workflows/steps/install-flutter
@@ -83,9 +91,8 @@ jobs:
           bundle exec fastlane build_ios_release
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
-      # Enable this if you want to publish the IPA file as an artifact
-      # - name: Publish iOS App
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: ios_build
-      #     path: ${{ env.PROJECT_WORKING_DIRECTORY }}/build/ios/ipa/**
+      - name: Publish iOS App
+        uses: actions/upload-artifact@v3
+        with:
+          name: ios_build
+          path: ${{ env.PROJECT_WORKING_DIRECTORY }}/build/ios/ipa/**
