@@ -35,6 +35,7 @@ dependencies:
   syncfusion_flutter_gauges: ^23.1.36
   uuid: ^4.0.0
   web_socket_channel: ^2.4.0
+  webview_flutter: ^4.2.4
 
 dev_dependencies:
   auto_mappr: ^1.7.0
